@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #contactForm {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 60px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #34495e;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23333' stroke-width='2'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 600px) {
+            #contactForm {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form id="contactForm">
+        <h1>Student Registration Form</h1>
+        
+        <!-- Full Name -->
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+        
+        <!-- Father's Name -->
+        <label for="fatherName">Father's Name</label>
+        <input type="text" id="fatherName" name="fatherName" placeholder="Enter father's name" required>
+        
+        <!-- Address -->
+        <label for="address">Address</label>
+        <textarea id="address" name="address" placeholder="Enter your address" required></textarea>
+        
+        <!-- Gender -->
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" required>
+            <option value="" disabled selected>Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+        
+        <!-- City -->
+        <label for="city">City</label>
+        <select id="city" name="city" required>
+            <option value="" disabled selected>Select City</option>
+            <option value="Banglore">Bangalore</option>
+            <option value="Hydrabed">Hyderabad</option>
+            <option value="Chennai">Chennai</option>
+        </select>
+        
+        <!-- Course -->
+        <label for="course">Course</label>
+        <select id="course" name="course" required>
+            <option value="" disabled selected>Select Course</option>
+            <option value="bcom">BCom</option>
+            <option value="bba">BBA</option>
+            <option value="bca">BCA</option>
+        </select>
+        
+        <!-- State -->
+        <label for="state">State</label>
+        <select id="state" name="state" required>
+            <option value="" disabled selected>Select State</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Andra Pradesh">Andhra Pradesh</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+        </select>
+        
+        <!-- District -->
+        <label for="district">District</label>
+        <input type="text" id="district" name="district" placeholder="Enter district name" required>
+        
+        <!-- Pincode -->
+        <label for="pincode">Pincode</label>
+        <input type="text" id="pincode" name="pincode" placeholder="Enter pincode" required>
+        
+        <!-- Student Email -->
+        <label for="studentEmail">Student Email</label>
+        <input type="email" id="studentEmail" name="studentEmail" placeholder="Enter student email" required>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+        
+            const form = e.target;
+        
+            const formData = {
+                fullName: form.fullName.value,
+                fatherName: form.fatherName.value,
+                address: form.address.value,
+                gender: form.gender.value,
+                city: form.city.value,
+                course: form.course.value,
+                state: form.state.value,
+                district: form.district.value,
+                pincode: form.pincode.value,
+                studentEmail: form.studentEmail.value
+            };
+        
+            try {
+                const response = await fetch('http://localhost:3000/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+        
+                if (response.ok) {
+                    alert('Thank You,your Form submitted successfully!');
+                    form.reset();
+                } else {
+                    throw new Error('Server error');
+                }
+            } catch (error) {
+                console.error('Submission failed:', error);
+                alert('Something went wrong. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
